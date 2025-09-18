@@ -17,24 +17,25 @@ Built with **Tkinter**, runs on any modern version of Python 3.
 
 ## Estimated File Sizes
 
-| Count                 | Approx File Size |
-| --------------------- | ---------------- |
-| 1,000                 | \~33 KB          |
-| 10,000                | \~334 KB         |
-| 100,000               | \~3.3 MB         |
-| 1 million             | \~33 MB          |
-| 10 million            | \~400 MB         |
-| 100 million           | \~4.0 GB         |
-| 1 billion             | \~48 GB          |
-| 10 billion            | \~477 GB         |
-| 100 billion           | \~4.8 TB         |
-| 1 trillion            | \~57 TB          |
-| 10 trillion           | \~572 TB         |
-| 100 trillion          | \~5.7 PB         |
-| 1 quadrillion         | \~57 PB          |
-| 10 quadrillion        | \~572 PB         |
-| 100 quadrillion       | \~5.7 EB         |
-| 999 quadrillion (max) | \~57 EB          |
+| Count                 | Avg Line Length | Approx File Size |
+| --------------------- | --------------- | ---------------- |
+| 1,000                 | \~35            | \~33 KB          |
+| 10,000                | \~35            | \~334 KB         |
+| 100,000               | \~35            | \~3.3 MB         |
+| 1 million             | \~38            | \~36 MB          |
+| 10 million            | \~47            | \~448 MB         |
+| 100 million           | \~71            | \~6.8 GB         |
+| 1 billion             | \~83            | \~79 GB          |
+| 10 billion            | \~91            | \~868 GB         |
+| 100 billion           | \~99            | \~9.4 TB         |
+| 1 trillion            | \~107           | \~102 TB         |
+| 10 trillion           | \~115           | \~1.1 PB         |
+| 100 trillion          | \~123           | \~11.7 PB        |
+| 1 quadrillion         | \~131           | \~125 PB         |
+| 10 quadrillion        | \~139           | \~1.3 EB         |
+| 100 quadrillion       | \~147           | \~14.0 EB        |
+| 999 quadrillion (max) | \~155           | \~148 EB         |
+
 
 
 
