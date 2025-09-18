@@ -17,7 +17,7 @@ class NumberToWords:
         self.teens = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 
                      'sixteen', 'seventeen', 'eighteen', 'nineteen']
         self.tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']
-        self.scales = ['', 'thousand', 'million', 'billion', 'trillion', 'quadrillion']
+        self.scales = ['', 'thousand', 'million', 'billion', 'trillion', 'quadrillion','quintillion']
     
     def convert_under_thousand(self, num: int) -> str:
         # Convert numbers under 1000 to words.
@@ -251,7 +251,39 @@ three
         
         self.info_text.delete(1.0, tk.END)
         self.info_text.insert(1.0, info)
-    
+    def format_size(self, size_in_mb: float) -> str:
+        # Format size from MB into KB, GB, TB, PB, EB as needed.
+        units = ["MB", "GB", "TB", "PB", "EB"]
+        size = size_in_mb
+        unit_index = 0
+        
+        while size >= 1024 and unit_index < len(units) - 1:
+            size /= 1024.0
+            unit_index += 1
+        
+        return f"{size:.2f} {units[unit_index]}"
+
+    def format_eta(self, seconds: float) -> str:
+        # Convert seconds into a human-readable ETA (s, min, h, days, years).
+        seconds = int(seconds)
+
+        if seconds < 60:
+            return f"{seconds}s"
+        elif seconds < 3600:
+            return f"{seconds // 60}m {seconds % 60}s"
+        elif seconds < 86400:
+            return f"{seconds // 3600}h {(seconds % 3600) // 60}m"
+        elif seconds < 604800:
+            return f"{seconds // 86400}d {(seconds % 86400) // 3600}h"
+        elif seconds < 31557600:  # ~1 year
+            return f"{seconds // 604800}w {(seconds % 604800) // 86400}d"
+        else:
+            years = seconds // 31557600
+            days = (seconds % 31557600) // 86400
+            return f"{years}y {days}d"
+
+
+        return f"{size:.2f} {units[unit_index]}"
     def browse_output_file(self):
         # Open file dialog to select output file.
         try:
@@ -272,13 +304,31 @@ three
         
         if filename:
             self.output_file_var.set(filename)
-    
+    def format_eta(self, seconds: float) -> str:
+        # Convert seconds into a human-readable ETA (s, min, h, days, weeks, years).
+        seconds = int(seconds)
+
+        if seconds < 60:
+            return f"{seconds}s"
+        elif seconds < 3600:
+            return f"{seconds // 60}m {seconds % 60}s"
+        elif seconds < 86400:
+            return f"{seconds // 3600}h {(seconds % 3600) // 60}m"
+        elif seconds < 604800:
+            return f"{seconds // 86400}d {(seconds % 86400) // 3600}h"
+        elif seconds < 31557600:  # ~1 year
+            return f"{seconds // 604800}w {(seconds % 604800) // 86400}d"
+        else:
+            years = seconds // 31557600
+            days = (seconds % 31557600) // 86400
+            return f"{years}y {days}d"
+
     def test_conversion(self):
         # Test number conversion with user input.
         def convert_and_show():
             try:
                 test_num = int(test_entry.get().replace(',', ''))
-                if test_num < 0 or test_num > 999999999999999:
+                if test_num < 0 or test_num > 999999999999999999999:
                     result_label.config(text="Number out of range (0 to 999 quadrillion)")
                     return
                 
@@ -334,7 +384,7 @@ three
             end_number = int(self.end_number_var.get().replace(',', ''))
             batch_size = int(self.batch_size_var.get().replace(',', ''))
             
-            if end_number < 1 or end_number > 999999999999999:
+            if end_number < 1 or end_number > 999999999999999999999:
                 messagebox.showerror("Error", "End number must be between 1 and 999,999,999,999,999")
                 return
             
@@ -357,9 +407,10 @@ three
         estimated_mb = (end_number * avg_chars) / (1024 * 1024)
         
         if estimated_mb > 1000:  # > 1GB
+            readable_size = self.format_size(estimated_mb)
             result = messagebox.askyesno(
                 "Large File Warning", 
-                f"Estimated file size: {estimated_mb:.1f} MB\n"
+                f"Estimated file size: {readable_size}\n"
                 f"This may take a long time and use significant disk space.\n\n"
                 f"Continue with generation?"
             )
@@ -403,11 +454,12 @@ three
                         elapsed = time.time() - start_time
                         rate = i / elapsed if elapsed > 0 else 0
                         eta = (end_number - i) / rate if rate > 0 else 0
-                        
+                        eta_str = self.format_eta(eta)
+
                         self.progress_queue.put({
                             'progress': progress,
                             'status': f"Generated {i:,} / {end_number:,} ({progress:.1f}%) - "
-                                    f"{rate:.0f} numbers/sec - ETA: {eta:.0f}s",
+                                      f"{rate:.0f} numbers/sec - ETA: {eta_str}",
                             'preview': '\n'.join(batch[-10:]) if batch else words
                         })
                 
@@ -418,18 +470,20 @@ three
             # Final update
             if self.is_generating:
                 elapsed = time.time() - start_time
-                file_size = os.path.getsize(output_file) / (1024 * 1024)
-                
+                file_size_mb = os.path.getsize(output_file) / (1024 * 1024)
+                file_size_str = self.format_size(file_size_mb)
+                elapsed_str = self.format_eta(elapsed)   # ✅ add this line
+
                 self.progress_queue.put({
                     'complete': True,
                     'progress': 100,
-                    'status': f"Complete! Generated {end_number:,} numbers in {elapsed:.1f}s "
-                            f"({file_size:.1f} MB)",
+                    'status': f"Complete! Generated {end_number:,} numbers in {elapsed_str} "
+                              f"({file_size_str})",
                     'info': f"✅ GENERATION COMPLETE!\n\n"
                            f"Numbers generated: {end_number:,}\n"
                            f"Output file: {output_file}\n"
-                           f"File size: {file_size:.1f} MB\n"
-                           f"Generation time: {elapsed:.1f} seconds\n"
+                           f"File size: {file_size_str}\n"
+                           f"Generation time: {elapsed_str}\n"
                            f"Average rate: {end_number/elapsed:.0f} numbers/second\n\n"
                            f"The file contains one number per line written in words."
                 })
