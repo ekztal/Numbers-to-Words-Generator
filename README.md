@@ -13,8 +13,30 @@ Built with **Tkinter**, runs on any modern version of Python 3.
 - Quick-select presets (1K, 10K, 100K, 1M, 10M)
 - Stop generation safely at any time
 - “Test Convert” tool for single number lookups
-- Save results to a file with a customizable name and location
-- Responsive GUI (generation runs in a background thread)
+- Save results to a file
+
+## Estimated File Sizes
+
+| Count                 | Approx File Size |
+| --------------------- | ---------------- |
+| 1,000                 | \~33 KB          |
+| 10,000                | \~334 KB         |
+| 100,000               | \~3.3 MB         |
+| 1 million             | \~33 MB          |
+| 10 million            | \~400 MB         |
+| 100 million           | \~4.0 GB         |
+| 1 billion             | \~48 GB          |
+| 10 billion            | \~477 GB         |
+| 100 billion           | \~4.8 TB         |
+| 1 trillion            | \~57 TB          |
+| 10 trillion           | \~572 TB         |
+| 100 trillion          | \~5.7 PB         |
+| 1 quadrillion         | \~57 PB          |
+| 10 quadrillion        | \~572 PB         |
+| 100 quadrillion       | \~5.7 EB         |
+| 999 quadrillion (max) | \~57 EB          |
+
+
 
 ##  Installation
 
