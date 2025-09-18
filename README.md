@@ -2,7 +2,7 @@
 
 A Python desktop application that converts numbers into their longhand **word form** and can generate large text files where each line is a written number.
 
-Built with **Tkinter**, runs on any modern version of Python 3.
+Built with **Tkinter**, on Python 3.12 but it should work on any recent version of 3.
 
 ---
 
