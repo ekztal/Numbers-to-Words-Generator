@@ -6,7 +6,7 @@ Built with **Tkinter**, runs on any modern version of Python 3.
 
 ---
 
-## ✨ Features
+##  Features
 - Convert any number (0 up to 999 quadrillion) into words
 - Generate entire ranges (`1 → 1,000,000` and beyond) into a text file
 - Progress tracking with speed, ETA, and file size estimates
@@ -16,7 +16,7 @@ Built with **Tkinter**, runs on any modern version of Python 3.
 - Save results to a file with a customizable name and location
 - Responsive GUI (generation runs in a background thread)
 
-## 🚀 Installation
+##  Installation
 
 1. Make sure you have **Python 3.8+** installed.
 2. Clone or download this repository.
